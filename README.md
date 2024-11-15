@@ -3,7 +3,7 @@
 The **Undiscord** userscript provides a powerful bulk message deletion tool for Discord. It allows you to delete multiple messages at once with advanced filtering options.
 
 > **Important Notes**:
-> - It is recommended to use this script only with Tampermonkey on Chrome. Install the 5.2.4 version first, then replace all code with 5.2.4 in the script editor.
+> - It is recommended to use this script only with Tampermonkey on Chrome. Install the 5.2.3 version first, then replace all code with 5.2.4 in the script editor.
 > - Do not use password manager to save Discord password in Chrome when using this script.
 > - Due to Discord's thread limit, it is recommended to use this script along with tools like [AutoCloseReopenThread](https://github.com/Xialai-Kulimi/AutoCloseReopenThread.git) to manage thread states.
 
