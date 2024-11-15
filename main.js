@@ -3,7 +3,7 @@
 // @description     Delete all messages in a Discord channel or DM (Bulk deletion)
 // @version         5.2.4
 // @author          victornpb
-// @homepageURL     https://github.com/victornpb/undiscord
+// @homepageURL     https://github.com/kazuki388/Undiscord
 // @supportURL      https://github.com/victornpb/undiscord/discussions
 // @match           https://*.discord.com/app
 // @match           https://*.discord.com/channels/*
@@ -160,7 +160,7 @@
         </svg>
         <h3>Undiscord</h3>
         <div class="vert-divider"></div>
-        <span> Bulk delete messages</span>
+        <span> Message Deletion Tool</span>
         <div class="spacer"></div>
         <div id="hide" class="icon" aria-label="Close" role="button" tabindex="0">
             <svg aria-hidden="false" width="24" height="24" viewBox="0 0 24 24">
@@ -173,10 +173,10 @@
     <div class="window-body" style="display: flex; flex-direction: row;">
         <div class="sidebar scroll">
             <details open>
-                <summary>General</summary>
+                <summary>Message Selection</summary>
                 <fieldset>
                     <legend>
-                        Author ID
+                        User ID
                         <a href="{{WIKI}}/authorId" title="Help" target="_blank" rel="noopener noreferrer">help</a>
                     </legend>
                     <div class="multiInput">
@@ -216,7 +216,7 @@
                 </fieldset>
             </details>
             <details>
-                <summary>Wipe Archive</summary>
+                <summary>Message Filters</summary>
                 <fieldset>
                     <legend>
                         Import index.json
@@ -243,7 +243,7 @@
                 <summary>Filter</summary>
                 <fieldset>
                     <legend>
-                        Search
+                        Pattern Matching
                         <a href="{{WIKI}}/filters" title="Help" target="_blank" rel="noopener noreferrer">help</a>
                     </legend>
                     <div class="input-wrapper">
@@ -282,7 +282,7 @@
                 </fieldset>
             </details>
             <details>
-                <summary>Messages interval</summary>
+                <summary>Date Interval</summary>
                 <fieldset>
                     <legend>
                         Interval of messages
@@ -316,7 +316,7 @@
                         <input id="minDate" type="datetime-local" title="Messages posted AFTER this date">
                     </div>
                     <legend>
-                        Before date
+                        Before Date
                         <a href="{{WIKI}}/dateRange" title="Help" target="_blank" rel="noopener noreferrer">help</a>
                     </legend>
                     <div class="input-wrapper">
@@ -326,16 +326,16 @@
                         Delete messages that were posted between the two dates. Make sure you enter both a date AND time, otherwise this will not work.
                     </div>
                     <div class="sectionDescription">
-                        * Filtering by date doesn't work if you use the "Messages interval".
+                        * Filtering by date doesn't work if you use the "Date Interval".
                     </div>
                 </fieldset>
             </details>
             <hr>
             <details>
-                <summary>Advanced settings</summary>
+                <summary>Advanced Settings</summary>
                 <fieldset>
                     <legend>
-                        Search delay
+                        Search Delay
                         <a href="{{WIKI}}/delay" title="Help" target="_blank" rel="noopener noreferrer">help</a>
                     </legend>
                     <div class="input-wrapper">
@@ -345,7 +345,7 @@
                 </fieldset>
                 <fieldset>
                     <legend>
-                        Delete delay
+                        Delete Delay
                         <a href="{{WIKI}}/delay" title="Help" target="_blank" rel="noopener noreferrer">help</a>
                     </legend>
                     <div class="input-wrapper">
@@ -376,19 +376,20 @@
             <hr>
             <div></div>
             <div class="info">
-                Undiscord {{VERSION}}
-                <br> victornpb
+                <div>Undiscord {{VERSION}}</div>
+                <div>Made with by victornpb and Kazuki</div>
+                <div><a href="{{HOME}}" target="_blank">GitHub</a></div>
             </div>
         </div>
         <div class="main col">
             <div class="tbar col">
                 <div class="row">
                     <button id="toggleSidebar" class="sizeMedium icon">☰</button>
-                    <button id="start" class="sizeMedium danger" style="width: 150px;" title="Start the deletion process">▶︎ Delete</button>
-                    <button id="stop" class="sizeMedium" title="Stop the deletion process" disabled>🛑 Stop</button>
-                    <button id="clear" class="sizeMedium">Clear log</button>
-                    <label class="row" title="Hide sensitive information on your screen for taking screenshots">
-                        <input id="redact" type="checkbox" checked> Streamer mode
+                    <button id="start" class="sizeMedium danger" style="width: 150px;" title="Start deleting messages">Delete Messages</button>
+                    <button id="stop" class="sizeMedium" title="Stop deletion process" disabled>Stop</button>
+                    <button id="clear" class="sizeMedium" title="Clear log">Clear Log</button>
+                    <label class="row" title="Hide sensitive information for screenshots">
+                        <input id="redact" type="checkbox" checked> Privacy Mode
                     </label>
                 </div>
                 <div class="row">
@@ -398,8 +399,7 @@
             <pre id="logArea" class="logarea scroll">
                 <div class="" style="background: var(--background-mentioned); padding: .5em;">Notice: Undiscord may be working slower than usual and<wbr>require multiple attempts due to a recent Discord update.<br>We're working on a fix, and we thank you for your patience.</div>
                 <center>
-                    <div>Star <a href="{{HOME}}" target="_blank" rel="noopener noreferrer">this project</a> on GitHub!</div>
-                    <div><a href="{{HOME}}/discussions" target="_blank" rel="noopener noreferrer">Issues or help</a></div>
+                    <div>Star us on <a href="{{HOME}}" target="_blank" rel="noopener noreferrer">GitHub</a></div>
                 </center>
             </pre>
             <div class="tbar footer row">
@@ -525,7 +525,7 @@
     /**
    * Delete all messages in a Discord channel or DM
    * @author Victornpb <https://www.github.com/victornpb>
-   * @see https://github.com/victornpb/undiscord
+   * @see https://github.com/kazuki388/Undiscord
    */
     class UndiscordCore {
         options = {
@@ -541,8 +541,8 @@
             hasLink: null, // Filter messages that contains link
             hasFile: null, // Filter messages that contains file
             hasNoFile: null, // Filter messages that contains no file (opposite of hasFile)
-            includeNsfw: null, // Search in NSFW channels
-            includeServers: null, // Search in server channels
+            includeNsfw: null, // Pattern Matching in NSFW channels
+            includeServers: null, // Pattern Matching in server channels
             includePinned: null, // Delete messages that are pinned
             pattern: null, // Only delete messages that match the regex (insensitive)
             searchDelay: null, // Delay each time we fetch for more messages
@@ -673,7 +673,7 @@
                 this.state.iterations++;
 
                 log.verb("Fetching messages...");
-                // Search messages
+                // Pattern Matching messages
                 this.state.sortOrder = this.state.sortOrder == "desc" ? "asc" : "desc";
                 log.verb(`Set sort order to ${this.state.sortOrder} for this search.`);
                 await this.search();
@@ -918,7 +918,7 @@
                 this.afterRequest();
             } catch (err) {
                 this.state.running = false;
-                log.error("Search request threw an error:", err);
+                log.error("Pattern Matching request threw an error:", err);
                 throw err;
             }
 
@@ -1264,7 +1264,7 @@
 
         printStats() {
             log.verb(
-                `Delete delay: ${this.options.deleteDelay}ms, Search delay: ${this.options.searchDelay}ms`,
+                `Delete delay: ${this.options.deleteDelay}ms, Pattern Matching delay: ${this.options.searchDelay}ms`,
                 `Last Ping: ${this.stats.lastPing}ms, Average Ping: ${this.stats.avgPing | 0}ms`,
             );
             log.verb(
@@ -1713,7 +1713,7 @@ body.undiscord-pick-message.after [id^="message-content-"]:hover::after {
     // -------------------------- User interface ------------------------------- //
 
     // links
-    const HOME = "https://github.com/victornpb/undiscord";
+    const HOME = "https://github.com/kazuki388/Undiscord";
     const WIKI = "https://github.com/victornpb/undiscord/wiki";
 
     const undiscordCore = new UndiscordCore();
