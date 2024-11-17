@@ -1,87 +1,85 @@
 # Undiscord
 
-The **Undiscord** userscript provides a powerful bulk message deletion tool for Discord. It allows you to delete multiple messages at once with advanced filtering options.
+A high-performance Discord message deletion utility implemented as a userscript.
 
-> **Important Notes**:
-> - It is recommended to use this script only with Tampermonkey on Chrome. Install the 5.2.3 version first, then replace all code with 5.2.4 in the script editor.
-> - Do not use password manager to save Discord password in Chrome when using this script.
-> - Due to Discord's thread limit, it is recommended to use this script along with tools like [AutoCloseReopenThread](https://github.com/Xialai-Kulimi/AutoCloseReopenThread.git) to manage thread states.
+This is a maintained fork of [victornpb/undiscord](https://github.com/victornpb/undiscord). While functional, this fork primarily serves personal needs and may lack broader community support or regular feature updates.
+
+> **Technical Prerequisites**:
+>
+> - Tampermonkey on Chromium-based browsers
+> - Deploy v5.2.3 initially, then upgrade to v5.2.4 via script editor
+> - Disable password manager for Discord authentication when script is active
+> - While the script handles thread state transitions, consider [AutoCloseReopenThread](https://github.com/Xialai-Kulimi/AutoCloseReopenThread.git) for enhanced thread lifecycle (archived/active) management
 
 ## Features
 
-- Delete messages in any channel, DM conversation or thread
-- Filter messages by content, date range, or message ID
-- Delete messages containing links or files
-- Filter messages that have no attachments
-- Import message history from Discord data archive
-- Support for deleting messages in archived threads with auto-reopen
-- Customizable search and deletion delays
-- Progress tracking with estimated time remaining
-- Streamer mode to hide sensitive information
-- Interactive message picker for selecting date ranges
-- Support for bulk deletion across multiple channels
-- Dynamic throttling to avoid rate limits
-- Comprehensive logging and error reporting
-- Automatic token detection
-- Responsive and draggable UI window
+- Concurrent message deletion across channels, DMs, and thread contexts
+- Advanced message filtering system with regex support and metadata matching
+- Discord data archive integration for offline message processing
+- Automated thread state management with configurable lifecycle hooks
+- Adaptive rate limiting with dynamic throttling
+- Real-time progress monitoring with ETA calculation
+- Privacy-focused streamer mode
+- Interactive message selection interface
+- Multi-channel batch processing support
+- Comprehensive logging and error handling
+- Automatic authentication token management
+- Modular UI with drag-and-drop capability
 
 ## Usage
 
-### Installation
+### Deployment
 
-1. Install a userscript manager like Tampermonkey
-2. Install the script from [Greasy Fork](https://greasyfork.org/en/scripts/406540-undiscord-delete-all-messages-in-a-discord-channel-or-dm-bulk-deletion)
-3. Refresh your Discord tab
+1. Deploy a userscript manager (Tampermonkey recommended)
+2. Install via [Greasy Fork](https://greasyfork.org/en/scripts/406540-undiscord-delete-all-messages-in-a-discord-channel-or-dm-bulk-deletion)
+3. Invalidate Discord cache (hard refresh)
 
-### Basic Steps
+### Operation
 
-1. Click the trash icon in Discord's toolbar to open the deletion interface
-2. Select the channel where you want to delete messages
-3. Configure filters and options as needed
-4. Click `Delete` to start the process
-5. Monitor progress in the log window
+1. Access deletion interface via toolbar icon
+2. Configure target channel parameters
+3. Define filtering criteria and execution parameters
+4. Initialize deletion process
+5. Monitor execution via logging interface
 
-### Channel Selection
+### Channel
 
-- **Server Channel**: Click `current` to automatically fill the current server and channel IDs
-- **DM/Group**: The Server ID will be automatically set to `@me` for direct messages
-- **Thread**: When selecting a thread, the parent channel ID will be automatically filled
-- **Multiple Channels**: You can enter multiple channel IDs separated by commas for batch deletion
+- Auto-population of current server/channel identifiers
+- Automatic `@me` server ID assignment
+- Automatic parent channel resolution
+- Comma-delimited channel ID support
 
-### Filtering Options
+### Filter
 
-- **Author ID**: Delete messages from a specific user (click `me` to use your own ID)
-- **Search**: Delete messages containing specific text
-- **Has Link**: Delete messages containing links
-- **Has File**: Delete messages containing attachments
-- **Has No File**: Delete messages without any attachments
-- **Pattern**: Delete messages matching a regular expression
-- **Date Range**: Delete messages between specific dates
-- **Message Range**: Delete messages between specific message IDs (use `Pick` buttons to select messages visually)
-- **Include Pinned**: When checked, pinned messages will also be deleted
-- **Include NSFW**: Enable searching in NSFW channels
+- `User ID`: Filter messages by specific user ID
+- `Pattern Matching`: Filter by exact text match or regex pattern
+- `Has Link`: Filter messages containing URLs
+- `Has File`: Filter messages with attachments
+- `Has No File`: Filter messages without attachments
+- `Pattern`: Filter using JavaScript RegExp pattern
+- `Date Range`: Filter by timestamp (ISO 8601)
+- `Message Range`: Filter by message snowflakes (use `Pick` to select messages visually)
+- `Include Pinned`: Include pinned messages (default: false)
+- `Include NSFW`: Search NSFW channels (default: false)
 
 ## Configuration
 
-The script can be customized by adjusting the following settings in the UI:
+Key runtime parameters configurable via UI:
 
-- **Search Delay**: Time between message fetching requests (`100ms` to `60000ms`, Default: `30000ms`)
-- **Delete Delay**: Time between message deletions (`50ms` to `10000ms`, Default: `1000ms`)
-- **Rate Limit Prevention**: Enable to automatically adjust delays to avoid Discord's rate limits
-- **Authorization Token**: Manual token entry if auto-detection fails
-- **Include NSFW**: Enable searching in NSFW channels
-- **Include Pinned**: Include pinned messages in deletion
-- **Auto Scroll**: Automatically scroll the log window
-- **Streamer Mode**: Hide sensitive information in the UI
+- `Search Delay`: Interval between API requests (`100ms-60000ms`, default: `1400ms`)
+- `Delete Delay`: Message deletion interval (`50ms-10000ms`, default: `1400ms`)
+- `Rate Limit Prevention`: Dynamic request throttling based on Discord's limits
+- `Authorization Token`: Optional manual Discord authentication token override
+- `Auto Scroll`: Controls automatic viewport scrolling during operations
+- `Privacy Mode`: Masks sensitive data in logs and UI
 
-## Safety Features
+The script implements two-tier rate limiting:
 
-- Confirmation prompt before starting deletion
-- Preview of messages to be deleted
-- Ability to stop the process at any time
-- Rate limit handling to prevent account flagging
-- Automatic delay adjustment based on Discord's response
+- Global: 45 requests/60s across all endpoints
+- Per-Endpoint: 4 requests/5s per unique endpoint
+
+The `Search Delay` and `Delete Delay` parameters automatically adjust based on Discord's rate limit responses. Higher values reduce throughput but improve reliability. The script implements exponential backoff when limits are encountered.
 
 ## Disclaimer
 
-Use this script responsibly. Mass deletion of messages may be against Discord's terms of service in certain cases. The authors are not responsible for any consequences of using this script.
+This script is provided for legitimate use cases. Users must ensure compliance with Discord's Terms of Service. The maintainers assume no liability for implementation outcomes.
