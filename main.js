@@ -75,7 +75,7 @@
 #undiscord.redact .priv { display: none !important; }
 #undiscord.redact x:not(:active) { color: transparent !important; background-color: var(--primary-700) !important; cursor: default; user-select: none; }
 #undiscord.redact x:hover { position: relative; }
-#undiscord.redact x:hover::after { content: "Redacted information (Streamer mode: ON)"; position: absolute; display: inline-block; top: -32px; left: -20px; padding: 4px; width: 150px; font-size: 8pt; text-align: center; white-space: pre-wrap; background-color: var(--background-floating); -webkit-box-shadow: var(--elevation-high); box-shadow: var(--elevation-high); color: var(--text-normal); border-radius: 5px; pointer-events: none; }
+#undiscord.redact x:hover::after { content: "Redacted information (Privacy Mode: ON)"; position: absolute; display: inline-block; top: -32px; left: -20px; padding: 4px; width: 150px; font-size: 8pt; text-align: center; white-space: pre-wrap; background-color: var(--background-floating); -webkit-box-shadow: var(--elevation-high); box-shadow: var(--elevation-high); color: var(--text-normal); border-radius: 5px; pointer-events: none; }
 #undiscord.redact [priv] { -webkit-text-security: disc !important; }
 #undiscord :disabled { display: none; }
 /**** layout and utility classes ****/
@@ -282,7 +282,7 @@
                 </fieldset>
             </details>
             <details>
-                <summary>Date Interval</summary>
+                <summary>Message Range</summary>
                 <fieldset>
                     <legend>
                         Interval of messages
@@ -306,7 +306,7 @@
                 </fieldset>
             </details>
             <details>
-                <summary>Date interval</summary>
+                <summary>Date Range</summary>
                 <fieldset>
                     <legend>
                         After date
@@ -541,8 +541,8 @@
             hasLink: null, // Filter messages that contains link
             hasFile: null, // Filter messages that contains file
             hasNoFile: null, // Filter messages that contains no file (opposite of hasFile)
-            includeNsfw: null, // Pattern Matching in NSFW channels
-            includeServers: null, // Pattern Matching in server channels
+            includeNsfw: null, // Search for NSFW messages
+            includeServers: null, // Search for messages in server channels
             includePinned: null, // Delete messages that are pinned
             pattern: null, // Only delete messages that match the regex (insensitive)
             searchDelay: null, // Delay each time we fetch for more messages
@@ -1264,12 +1264,12 @@
 
         printStats() {
             log.verb(
-                `Delete delay: ${this.options.deleteDelay}ms, Pattern Matching delay: ${this.options.searchDelay}ms`,
+                `Delete Delay: ${this.options.deleteDelay}ms, Search Delay: ${this.options.searchDelay}ms`,
                 `Last Ping: ${this.stats.lastPing}ms, Average Ping: ${this.stats.avgPing | 0}ms`,
             );
             log.verb(
                 `Rate Limited: ${this.stats.throttledCount} times.`,
-                `Total time throttled: ${msToHMS(this.stats.throttledTotalTime)}.`,
+                `Total Time Throttled: ${msToHMS(this.stats.throttledTotalTime)}.`,
             );
         }
     }
