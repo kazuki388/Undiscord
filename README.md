@@ -1,79 +1,87 @@
 # Undiscord
 
-The **Undiscord** userscript provides a powerful bulk message deletion tool for Discord. It allows you to delete multiple messages at once with advanced filtering options.
+A Discord message deletion utility implemented in Python. Inspired by [undiscord-cli](https://github.com/ShivamB25/undiscord-cli). For full documentation and features, please see the [main branch README](https://github.com/kazuki388/Undiscord/blob/main/README.md).
 
-> **Important Notes**:
-> - It is recommended to use this script only with Tampermonkey on Chrome. Install the old 5.2.3 version first, then replace all code with 5.2.3 (reopen) in the script editor.
-> - Do not use password manager to save Discord password in Chrome when using this script.
-> - Due to Discord's thread limit, it is recommended to use this script along with tools like [AutoCloseReopenThread](https://github.com/Xialai-Kulimi/AutoCloseReopenThread.git) to manage thread states.
+## Installation
 
-## Features
-
-- Delete messages in any channel or DM conversation
-- Filter messages by content, date range, or message ID
-- Delete messages containing links or files
-- Import message history from Discord data archive
-- Support for deleting messages in archived threads
-- Customizable search and deletion delays
-- Progress tracking with estimated time remaining
-- Streamer mode to hide sensitive information
-- Interactive message picker for selecting date ranges
-- Support for bulk deletion across multiple channels
-- Dynamic throttling to avoid rate limits
-- Comprehensive logging and error reporting
-- Automatic token detection
-- Responsive and draggable UI window
+1. Clone the repository
+2. Install required dependencies
 
 ## Usage
 
-### Installation
+### Interactive Mode (Recommended for first-time users)
 
-1. Install a userscript manager like Tampermonkey
-2. Install the script from [Greasy Fork](https://greasyfork.org/en/scripts/406540-undiscord-delete-all-messages-in-a-discord-channel-or-dm-bulk-deletion)
-3. Refresh your Discord tab
+Run the tool in interactive mode to be guided through the configuration:
 
-### Basic Steps
+```bash
+python main.py -i
+```
 
-1. Click the trash icon in Discord's toolbar to open the deletion interface
-2. Select the channel where you want to delete messages
-3. Configure filters and options as needed
-4. Click "Delete" to start the process
-5. Monitor progress in the log window
+The wizard will help you configure:
 
-### Filtering Options
+- Discord token
+- Server/Channel selection
+- Message filtering options
+- Deletion delays
 
-- **Author ID**: Delete messages from a specific user
-- **Search**: Delete messages containing specific text
-- **Has Link/File**: Delete messages with links or attachments
-- **Pattern**: Delete messages matching a regular expression
-- **Date Range**: Delete messages between specific dates
-- **Message Range**: Delete messages between specific message IDs
+### Using Command Line Arguments
 
-### Advanced Settings
+```bash
+python main.py --token "your-token" --guild "server-id" [OPTIONS]
+```
 
-- **Search Delay**: Time between message fetching requests (ms)
-- **Delete Delay**: Time between message deletions (ms)
-- **Authorization Token**: Manual token entry if auto-detection fails
-- **Include NSFW**: Enable searching in NSFW channels
-- **Include Pinned**: Include pinned messages in deletion
+### Using a Config File
 
-## Configuration
+Create a `config.json` file:
 
-The script can be customized by adjusting the following settings in the UI:
+```json
+{
+    "token": "your-discord-token",
+    "guild": "server-id",
+    "channel": "channel-id",
+    "author": "self",
+    "has_link": false,
+    "has_file": false,
+    "content": "text to match",
+    "pattern": "regex pattern",
+    "include_nsfw": false,
+    "include_pinned": false,
+    "delete_delay": 1.0,
+    "search_delay": 1.0
+}
+```
 
-- **Search Delay**: `100ms` to `60000ms` (Default: `30000ms`)
-- **Delete Delay**: `50ms` to `10000ms` (Default: `1000ms`)
-- **Auto Scroll**: Automatically scroll the log window
-- **Streamer Mode**: Hide sensitive information in the UI
+Then run:
 
-## Safety Features
+```bash
+python main.py --config config.json
+```
 
-- Confirmation prompt before starting deletion
-- Preview of messages to be deleted
-- Ability to stop the process at any time
-- Rate limit handling to prevent account flagging
-- Automatic delay adjustment based on Discord's response
+## Getting Your Discord Token
 
-## Disclaimer
+> [!WARNING]
+> Never share your Discord token with anyone. It provides full access to your account.
 
-Use this script responsibly. Mass deletion of messages may be against Discord's terms of service in certain cases. The authors are not responsible for any consequences of using this script.
+1. Open Discord in your browser
+2. Press F12 to open Developer Tools
+3. Go to Network tab
+4. Click on any request to discord.com
+5. Look for `authorization` in the request headers
+6. Copy the token value
+
+## Configuration Options
+
+| Option | Type | Description | Default |
+|:------:|:----:|-------------|:-------:|
+| `token` | TEXT | Your Discord authentication token | Required |
+| `guild` | TEXT | Target server/guild ID | - |
+| `channel` | TEXT | Target channel ID within the guild | - |
+| `author` | TEXT | Filter by message author ID (`self` for your messages) | - |
+| `has_link` | FLAG | Filter messages containing URLs | `false` |
+| `has_file` | FLAG | Filter messages with attachments | `false` |
+| `content` | TEXT | Filter by message text content | - |
+| `pattern` | TEXT | Filter using regex pattern matching | - |
+| `include_nsfw` | FLAG | Include NSFW channel messages | `false` |
+| `include_pinned` | FLAG | Include pinned messages | `false` |
+| `delete_delay` | FLOAT | Time between message deletions (seconds) | `1.0` |
+| `search_delay` | FLOAT | Time between search operations (seconds) | `1.0` |
