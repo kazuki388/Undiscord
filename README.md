@@ -63,11 +63,15 @@ python main.py --config config.json
 > Never share your Discord token with anyone. It provides full access to your account.
 
 1. Open Discord in your browser
-2. Press F12 to open Developer Tools
-3. Go to Network tab
-4. Click on any request to discord.com
-5. Look for `authorization` in the request headers
-6. Copy the token value
+2. Press <kbd>F12</kbd> to open [DevTools](https://developer.chrome.com/docs/devtools/overview)
+3. Go to [Console](https://developer.chrome.com/docs/devtools/console/) tab
+4. Type into the console
+
+   ```js
+   (webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken()
+   ```
+
+5. Copy the token value
 
 ## Configuration Options
 
